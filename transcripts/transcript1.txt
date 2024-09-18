@@ -1,0 +1,237 @@
+
+Speaker 1
+0 40:04
+@1 0 minutes 4 seconds
+K started courting.
+@1 0 minutes 8 seconds
+OK.
+@1 0 minutes 8 seconds
+So this will be kind of like a higher level overview of the PR that I have out regarding migrating.
+@1 0 minutes 18 seconds
+Our CPP Azure marketplace and partner center publishing from the current older API known as the cloud Partner API to the newer graph product ingestion.
+@1 0 minutes 36 seconds
+DAPI declarative API.
+@1 0 minutes 41 seconds
+So on a high level.
+@1 0 minutes 46 seconds
+The changes are so I've included also the link to the design Doc.
+@1 0 minutes 56 seconds
+And a lot of the a lot of details are included in there and for example.
+@1 1 minute 3 seconds
+The.
+@1 1 minute 5 seconds
+API is completely different along with the schemas that are used in in the new API and the DOC includes.
+@1 10 minutes 54 seconds
+GP.
+@1 10 minutes 56 seconds
+Utilities class along with and. This is also where consolidated a lot of our logic.
+@1 11 minutes 1 second
+Basically, there's obviously separate core VM and Azure VM.
+@1 11 minutes 7 seconds
+Utilities, but then also shared utilities and methods in here and you know, obviously I'm not gonna go through all of these, but.
+@1 11 minutes 18 seconds
+You get an idea of what those changes are.
+@1 11 minutes 24 seconds
+And you can compare to.
+@1 11 minutes 26 seconds
+The previous CPP logic and and kind of see the overlap. I've added, you know.
+@1 11 minutes 33 seconds
+A significant amount more help helper methods but.
+@1 11 minutes 37 seconds
+That's just kind of a heads up there.
+@1 11 minutes 41 seconds
+And then.
+@1 11 minutes 44 seconds
+You'll also see the different models and enums that I had to obviously create as part of this new schema.
+@1 11 minutes 52 seconds
+New API.
+@1 11 minutes 53 seconds
+So that's what.
+@1 11 minutes 57 seconds
+Each of these are and. You can also verify yourself by.
+@1 12 minutes 2 seconds
+Visiting the URL that the partner center folks provide through their API or that I've also included in here.
+@1 12 minutes 11 seconds
+Where you can look at the schema and values.
+@1 12 minutes 16 seconds
+And whatnot.
+@1 12 minutes 19 seconds
+And then here you'll see the equivalents.
+@1 12 minutes 24 seconds
+Offered Jason's offered data. Jason's so you know, in the CPP we have.
+@1 12 minutes 31 seconds
+It for each offer following its schema. This one is a completely different schema so.
+@1 12 minutes 36 seconds
+These had to be created separately for this new API, new ones.
+@1 12 minutes 44 seconds
+Umm.
+@1 12 minutes 48 seconds
+This is the schemas for for the offer.
+@1 12 minutes 54 seconds
+In each child class.
+@1 12 minutes 56 seconds
+And everything essentially within the offer.
+@1 13 minutes 1 second
+So you can.
+@1 13 minutes 3 seconds
+Go through those.
+@1 13 minutes 10 seconds
+Schemas and.
+@1 13 minutes 13 seconds
+Yeah, same.
+@1 13 minutes 13 seconds
+You similarly here.
+@1 13 minutes 14 seconds
+So yeah, there's for Azure VM.
+@1 13 minutes 17 seconds
+I have a base.
+@1 13 minutes 18 seconds
+We have core VM.
+@1 13 minutes 20 seconds
+I, you know, like I mentioned before, even with the schemas I consolidated and reused.
+@1 13 minutes 27 seconds
+You know, basically shared one in the base and then.
+@1 13 minutes 31 seconds
+Ones that differ between the Azure VM and the core VM into its separate ones.
+@1 13 minutes 37 seconds
+This is the.
+@1 13 minutes 40 seconds
+Offer you could think of the offer resource tree as the kind of parent large offer Jason.
+@1 13 minutes 47 seconds
+That's the term that the partner center folks use, so.
+@1 13 minutes 53 seconds
+I just followed, you know.
+@1 13 minutes 57 seconds
+Similar formatting or names.
+@1 14 minutes 9 seconds
+Yeah. So these are the utilities that I previously mentioned.
+@1 14 minutes 14 seconds
+The controller. This is where we have.
+@1 14 minutes 19 seconds
+Obviously this our service fabric endpoints that we call.
+@1 14 minutes 24 seconds
+And which then also calls our GPI manager which calls the.
+@1 14 minutes 31 seconds
+Partner center graph product congestion endpoints.
+@1 14 minutes 38 seconds
+So you have like.
+@1 14 minutes 41 seconds
+Posting and updating the offer. Getting the specific offer version type for example, like if it's draft preview or.
+@1 14 minutes 50 seconds
+Live.
+@1 14 minutes 53 seconds
+Et cetera. And I think I mentioned this and also this is including the design DOC, but just as a reminder.
+@1 15 minutes 4 seconds
+With the new API, the offers and resources are referenced by their offer durable ID.
+@1 15 minutes 11 seconds
+So you can kinda think of that as like a unique ID GUID for each offer and then.
+@1 15 minutes 20 seconds
+Within each offer, you have separate SKUs, so each SKU has its own. You can think of unique ID.
+@1 15 minutes 28 seconds
+It's like, you know, at the offer level, you can think of as like the offer durable ID and then like at the SKU level, you can think of as like you know skew durable ID or?
+@1 15 minutes 38 seconds
+That product specific adurable ID.
+@1 15 minutes 41 seconds
+And so when we query, we have this endpoint where we can use the offer name and then get get the durable ID to be able to query the new API.
+@1 15 minutes 53 seconds
+And you'll see.
+@1 15 minutes 54 seconds
+You know that being used?
+@1 15 minutes 57 seconds
+Throughout the code.
+
+Kalyan Sutapalli
+15 minutes 59 seconds15:59
+Kalyan Sutapalli 15 minutes 59 seconds
+Some quick questions.
+Kalyan Sutapalli 16 minutes
+So is there any comparison doc between the old API and the new API that partner center team has provided?
+
+Speaker 1
+16 minutes 11 seconds16:11
+@1 16 minutes 11 seconds
+Yeah. So they have their documentation, which I've also LinkedIn here.
+@1 16 minutes 16 seconds
+I with regards to like looking at the exact.
+@1 16 minutes 21 seconds
+Jsons and.
+@1 16 minutes 25 seconds
+You know, essentially each property in each value like that's something that's in the differences.
+@1 16 minutes 31 seconds
+And what were the overlap that that's something.
+@1 16 minutes 34 seconds
+Their documentation didn't provide that level of granularity, so I had to.
+@1 16 minutes 40 seconds
+Go through that and then go. And I've linked the separate doc here also.
+@1 16 minutes 45 seconds
+Where I've updated and left some notes from after syncing with the partners on the different you know, features properties, flags, whatever.
+@1 17 minutes
+So yeah, so it's been kind of like you can look at their documentation to kinda get like a higher level. And then for more I guess detail, you can look at the design DOC, I I put together and also that Doc itself, where I've also linked and sent.
+@1 17 minutes 17 seconds
+It to the partner center folks.
+@1 17 minutes 21 seconds
+Yeah.
+@1 17 minutes 29 seconds
+And then also created tests.
+@1 17 minutes 35 seconds
+So, you know, feel free to go through those and the comments as needed.
+@1 17 minutes 47 seconds
+And yeah, I think that's kind of the.
+@1 17 minutes 54 seconds
+Oh yeah, and then separately also I because we do have our release date.
+@1 18 minutes 3 seconds
+API that is queried to get.
+@1 18 minutes 10 seconds
+The status of of an offer. I have also updated the logic there and have tested that.
+@1 18 minutes 18 seconds
+So yeah, any questions folks have?
+@1 18 minutes 24 seconds
+Sorry I couldn't see if there's hands up.
+@1 18 minutes 30 seconds
+What's stop recording?
+
+Kalyan Sutapalli
+18 minutes 38 seconds18:38
+Kalyan Sutapalli 18 minutes 38 seconds
+So.
+Kalyan Sutapalli 18 minutes 41 seconds
+Once the FLIGHTING is implemented, then we'll go to production or.
+Kalyan Sutapalli 18 minutes 46 seconds
+Is that an afterthought for us?
+
+Speaker 1
+18 minutes 51 seconds18:51
+@1 18 minutes 51 seconds
+So.
+@1 18 minutes 56 seconds
+Hold on.
+@1 18 minutes 57 seconds
+Sorry I.
+@1 19 minutes
+Stop recording on and off.
+@1 19 minutes 2 seconds
+It stopped recording.
+@1 19 minutes 4 seconds
+Still recording, but anyways, sorry.
+@1 19 minutes 6 seconds
+So your question was.
+@1 19 minutes 9 seconds
+The.
+@1 19 minutes 11 seconds
+A gradual rollout.
+@1 19 minutes 12 seconds
+Is that the gradual rollout slash deployment?
+
+Kalyan Sutapalli
+19 minutes 13 seconds19:13
+Kalyan Sutapalli 19 minutes 13 seconds
+Yeah, yeah, yeah.
+
+Speaker 1
+19 minutes 16 seconds19:16
+@1 19 minutes 16 seconds
+Yeah. So.
+@1 19 minutes 19 seconds
+How it's currently implemented is.
+@1 19 minutes 26 seconds
+Sorry.
