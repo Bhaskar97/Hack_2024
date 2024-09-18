@@ -5,6 +5,8 @@ import numpy as np
 import os
 import glob
 
+import openai
+from langchain_openai import AzureChatOpenAI
 
 # Load pre-trained model and tokenizer
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
@@ -36,3 +38,34 @@ for file in files:
 
 # Save the index to a file
 faiss.write_index(index, 'vector_index.faiss')
+
+# Load the FAISS index from the file
+index = faiss.read_index('vector_index.faiss')
+
+# Get the total number of vectors in the index
+num_vectors = index.ntotal
+
+# Retrieve all vectors from the index
+vectors = []
+for i in range(num_vectors):
+    vector = index.reconstruct(i)
+    vectors.append(vector)
+    
+# Convert the list of vectors to a NumPy array
+vectors = np.array(vectors)
+
+def generate_response(vectors, prompt):
+    # Convert vectors to input format
+    vector_text = " ".join([str(v) for v in vectors.tolist()])
+    combined_input = vector_text + " " + prompt
+
+    # Initialize AzureChatOpenAI
+    llm = AzureChatOpenAI(openai_api_version="2023-03-15-preview",azure_deployment="TheInformant",api_key="5b35249ba224434d915801ba440073cb", azure_endpoint="https://drainthebrain.openai.azure.com")
+    # Generate response using AzureChatOpenAI
+    response = llm(combined_input, max_tokens=100, temperature=0.7)
+    return response
+
+# Example usage
+prompt = "What is the main issue in the code?"
+response = generate_response(vectors, prompt)
+print(response)
