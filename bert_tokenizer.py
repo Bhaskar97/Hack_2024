@@ -32,7 +32,6 @@ for file in files:
             outputs = model(**inputs)\
         # Get the embeddings for the [CLS] token
         embeddings = outputs.last_hidden_state[:, 0, :].numpy()
-        print("shape:" , embeddings.shape)
         # Add embeddings to the index
         index.add(embeddings)
 
@@ -60,12 +59,12 @@ def generate_response(vectors, prompt):
     combined_input = vector_text + " " + prompt
 
     # Initialize AzureChatOpenAI
-    llm = AzureChatOpenAI(openai_api_version="2023-03-15-preview",azure_deployment="TheInformant",api_key="5b35249ba224434d915801ba440073cb", azure_endpoint="https://drainthebrain.openai.azure.com")
+    llm = AzureChatOpenAI(openai_api_version="2023-03-15-preview",azure_deployment="TheInformant",api_key="", azure_endpoint="https://drainthebrain.openai.azure.com")
     # Generate response using AzureChatOpenAI
     response = llm(combined_input, max_tokens=100, temperature=0.7)
     return response
 
 # Example usage
-prompt = "What is the main issue in the code?"
+prompt = "The text before this string"
 response = generate_response(vectors, prompt)
 print(response)
